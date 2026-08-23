@@ -1,5 +1,4 @@
-# full-stack-GraphRAG-system
-Full-Stack GraphRAG with Hierarchical Indexing
+# Full-Stack GraphRAG with Hierarchical Indexing
 
 A production-shaped RAG application combining parent-child hierarchical chunking, an explicit knowledge graph (Neo4j) of extracted entities and typed relationships, a FastAPI backend that fuses vector and graph search through a LangGraph multi-hop agent, and a Streamlit chat UI with citation cards and an interactive graph inspector.
 
@@ -35,7 +34,8 @@ N-hop Graph Traversal
 Assembled Context
 LLM Answer Generation
 Streamlit Chat UI
-Graph schema (Neo4j)
+
+# Graph schema (Neo4j)
 (:Entity {name, type, description})
 (:ParentChunk {id, doc_id, order, text})
 (:ChildChunk  {id, doc_id, order})
@@ -46,11 +46,11 @@ Graph schema (Neo4j)
 
 Relationship types are dynamic LLM output, sanitized into safe Cypher relationship-type tokens (app/core/graph_store.py::_sanitize_rel_type) before being interpolated into queries — Neo4j does not support parameterized relationship types, so this is the injection boundary to be careful with.
 
-Why a LangGraph agent instead of a single fixed Cypher query
+# Why a LangGraph agent instead of a single fixed Cypher query
 
 The retrieval agent (app/agents/graph_rag_agent.py) is a small state machine: retrieve_vector -> seed_graph_entities -> retrieve_graph -> (conditional: expand another hop | finish). If the first-hop subgraph around the query's seed entities comes back sparse, the agent widens the traversal radius before handing context to the LLM, up to a configurable hop budget. This is deliberately simple (not a general ReAct loop) — it's the smallest state machine that gives genuinely adaptive multi-hop behavior rather than a hardcoded hop count.
 
-Repository layout
+# Repository layout
 backend/
   app/
     api/            # FastAPI routers: ingest, chat, graph
@@ -70,15 +70,16 @@ frontend/
   requirements.txt
 docker-compose.yml
 .env.example
-Setup
-1. Configure environment
+
+# Setup
+# 1. Configure environment
 bash
 cp .env.example .env
 # edit .env and set OPENAI_API_KEY (required for extraction + generation)
 
 EMBEDDING_PROVIDER=local (default) uses sentence-transformers on-box — no API key needed for embeddings, only for the extraction/generation LLM calls. Set it to openai to use OpenAI embeddings instead.
 
-2. Run everything with Docker Compose
+# 2. Run everything with Docker Compose
 bash
 docker-compose up --build
 
@@ -87,7 +88,7 @@ This starts:
 Neo4j at bolt://localhost:7687 (browser UI at http://localhost:7474, neo4j / password123)
 FastAPI backend at http://localhost:8000 (docs at /docs)
 Streamlit frontend at http://localhost:8501
-3. Run locally without Docker (for development)
+# 3. Run locally without Docker (for development)
 bash
 # Backend
 cd backend
@@ -101,15 +102,15 @@ BACKEND_URL=http://localhost:8000 streamlit run streamlit_app.py
 
 You'll need a local or containerized Neo4j instance reachable at the configured NEO4J_URI either way.
 
-4. Run tests
+# 4. Run tests
 bash
 cd backend
 pytest -v
 
 All external systems (Neo4j, Chroma, OpenAI) are mocked via dependency_overrides / fixtures, so the suite runs offline with no credentials.
 
-Sample usage
-Ingest a document
+# Sample usage
+# Ingest a document
 bash
 curl -X POST http://localhost:8000/api/v1/ingest/sync \
   -H "Content-Type: application/json" \
@@ -136,7 +137,8 @@ Other good sample queries to try after ingesting a few related documents:
 
 "How is [Entity A] connected to [Entity B]?" — exercises the multi-hop graph traversal directly.
 "Summarize what happened in Q1 2024." — exercises vector retrieval + parent-context expansion more than the graph.
-Inspect the graph
+
+# Inspect the graph
 bash
 curl "http://localhost:8000/api/v1/graph/subgraph?doc_id=acme-2024-10k"
 curl "http://localhost:8000/api/v1/graph/subgraph?entity=Acme%20Corp&hops=2"
