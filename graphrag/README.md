@@ -1,5 +1,5 @@
 # Full-Stack GraphRAG with Hierarchical Indexing
-
+ 
 A production-shaped RAG application combining **parent-child hierarchical
 chunking**, an **explicit knowledge graph** (Neo4j) of extracted entities and
 typed relationships, a **FastAPI** backend that fuses vector and graph
