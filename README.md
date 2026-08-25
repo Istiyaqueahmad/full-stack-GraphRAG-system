@@ -8,7 +8,7 @@ Ingestion
 ~1000 tok
 ~200 tok
 nodes + edges
-provenance
+provenance 
 CHILD_OF
 expand
 SSE stream
