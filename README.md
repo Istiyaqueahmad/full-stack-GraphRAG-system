@@ -5,7 +5,7 @@ A production-shaped RAG application combining parent-child hierarchical chunking
 Architecture
 Query Time
 Ingestion
-~1000 tok
+~1000 tok 
 ~200 tok
 nodes + edges
 provenance 
