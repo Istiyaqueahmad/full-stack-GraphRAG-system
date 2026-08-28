@@ -6,7 +6,7 @@ typed relationships, a **FastAPI** backend that fuses vector and graph
 search through a **LangGraph** multi-hop agent, and a **Streamlit** chat UI
 with citation cards and an interactive graph inspector. 
  
-## Architecture  
+## Architecture   
   
 ```mermaid   
 flowchart TB
