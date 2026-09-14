@@ -9,7 +9,7 @@ with citation cards and an interactive graph inspector.
 ## Architecture       
      
 ```mermaid     
-flowchart TB
+flowchart TB  
     subgraph Ingestion
         A[Raw Document] --> B[Hierarchical Chunker]
         B -->|~1000 tok| P[Parent Chunks]
